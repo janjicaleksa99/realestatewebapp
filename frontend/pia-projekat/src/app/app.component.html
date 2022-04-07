@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row flex-center">
+        <div class="col-sm-11 flex-center">
+            <nav class="navbar navbar-toggle navbar-expand-sm">
+                <ul class="navbar-nav">
+                    <li *ngIf="loginHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/'])">Početna</a>
+                    </li>
+                    <li *ngIf="loginHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/register'])">Registracija</a>
+                    </li>
+                    <li *ngIf="buyerHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/kupac'])">Pretraga nekretnina</a>
+                    </li>
+                    <li *ngIf="buyerHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/omiljene'])">Omiljene nekretnine</a>
+                    </li>
+                    <li *ngIf="adminHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/admin'])">Novi zahtevi</a>
+                    </li>
+                    <li *ngIf="adminHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/azuriraj'])">Azuriraj korisnike</a>
+                    </li>
+                    <li *ngIf="adminHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/dodajKorisnika'])">Dodaj Korisnika</a>
+                    </li>
+                    <li *ngIf="adminHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/dodajAgenciju'])">Dodaj Agenciju</a>
+                    </li>
+                    <li *ngIf="adminHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/mikroLokacija'])">Dodavanje/Brisanje mikrolokacije</a>
+                    </li>
+                    <li *ngIf="salesmanHead() || agentHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/uneseneNekretnine'])">Unesene nekretnine</a>
+                    </li>
+                    <li *ngIf="salesmanHead() || agentHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/novaNekretnina'])">Unos Nekretnine</a>
+                    </li>
+                    <li *ngIf="salesmanHead() || agentHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/novaNekretninaJSON'])">Unos Nekretnine kroz JSON</a>
+                    </li>
+                    <li *ngIf="salesmanHead() || agentHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/licniPodaci'])">Lični podaci</a>
+                    </li>
+                    <li *ngIf="!loginHead()" class="nav-item">
+                        <a class="nav-link" (click)="router.navigate(['/promenaLozinke'])">Promena lozinke</a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>-->
+                </ul>
+            </nav> 
+        </div>
+        <div class="col-sm-1">
+            <nav class="navbar navbar-toggle navbar-expand-sm">
+                <ul class="navbar-nav">
+                    <li *ngIf="uservice.getLoggedUser() != null" class="nav-item active">
+                        <button (click)="logout()" class="btn btn-primary">Odjava</button>
+                    </li>
+                </ul>
+            </nav>     
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>
+  

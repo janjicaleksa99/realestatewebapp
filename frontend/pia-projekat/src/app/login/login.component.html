@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <div class="row flex-center">
+        <div class="col-sm-12">
+            <div class="flex-center" style="margin-top: 50px;">
+                <h2>Prijava na sistem</h2>
+            </div>
+            <div class="flex-center">
+                <form class="table table-borderless" [formGroup]="loginForm">
+                    <table align="center">
+                        <tr>
+                            <td>Korisničko ime:</td>
+                            <td>
+                                <input type="text" class="form-control" formControlName="username" name="username" [(ngModel)]='username'>
+                            </td>
+                        </tr>
+                        <tr *ngIf="loginForm.get('username').hasError('required')
+                        && (loginForm.get('username').touched || usernameError)" class="error">
+                            <td></td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">
+                                <span>
+                                    Korisnicko ime je neophodno</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lozinka:</td>
+                            <td><input type="text" class="form-control" formControlName="password" name="password" [(ngModel)]='password'></td>
+                        </tr>
+                        <tr *ngIf="loginForm.get('password').hasError('required')
+                        && (loginForm.get('password').touched || passwordError)" class="error">
+                            <td></td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">
+                                <span>
+                                    Lozinka je neophodna</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="invalidCredentials && (loginForm.get('username').touched && loginForm.get('password').touched)" class="error">
+                            <td colspan="2">
+                                Korisničko ime ili lozinka nisu ispravni
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="center">
+                                <button class="btn btn-primary" (click)="login()">Prijavi se</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <hr/>
+                <div>Nemate nalog? <button class="btn btn-primary" (click)="registerPage()">Registruj se</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="row flex" style="margin-top: 50px;">
+            <div *ngFor="let ad of latestAdverts" class="card col-sm-12 col-md-3" style="margin-right: 20px; margin-bottom: 10px;">
+                <img class="card-imgtop" width="300" height="150" [src]="ad.Realestate.Pictures[ad.Realestate.RandPic]"  alt="Card image">
+                <div class="card-body">
+                    <h4 class="cardtitle">{{ad.Realestate.Name}}</h4>
+                    <p class="cardtext">Cena: {{ad.Realestate.Price}}</p>
+                </div>
+            </div>
+    </div>    
+</div>

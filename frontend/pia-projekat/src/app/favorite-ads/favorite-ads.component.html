@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <!--<div class="row flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-12">
+            <div class="flex-center">
+                <h2>Pretraga oglasa:</h2>
+            </div>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+                <h2>Pregled omiljenih nekretnina:</h2>       
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <table class="table table-border">
+                <thead>
+                  <tr>
+                    <th>Naziv</th>
+                    <th>Grad:</th>
+                    <th>Opština:</th>
+                    <th>Mikro lokacija:</th>
+                    <th>Kvadratura</th>
+                    <th>Broj soba:</th>
+                    <th>Spratnost:</th>
+                    <th>Kratak opis:</th>
+                    <th>Cena:</th>
+                    <th>Ukloni</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="advertisements.length == 0">
+                        <td colspan="10" align="center">
+                            <h5>Niste odabrali nijednu nekretninu kao omiljenu</h5>
+                        </td>
+                    </tr>
+                    <tr class="mat-row" *ngFor="let ad of advertisements">
+                        <td>{{ad.Realestate.Name}}</td>
+                        <td>{{ad.Realestate.City}}</td>
+                        <td>{{ad.Realestate.Municipality}}</td>
+                        <td>{{ad.Realestate.Microlocation}}</td>
+                        <td>{{ad.Realestate.Area}}</td>
+                        <td>{{ad.Realestate.Rooms}}</td>
+                        <td>{{ad.Realestate.Floor}}</td>
+                        <td>{{ad.Realestate.About}}</td>
+                        <td>{{ad.Realestate.Price}}</td>
+                        <td><button class="btn btn-danger" (click)="deleteFromFavorites(ad)">X</button></td>
+                    </tr>
+                </tbody>
+              </table>     
+        </div>
+    </div>       
+</div>

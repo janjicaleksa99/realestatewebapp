@@ -1,0 +1,24 @@
+.container-fluid {
+    background-color: rgb(101, 161, 240);
+}
+
+.nav-link {
+    color: rgb(15, 15, 218);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-item :hover {
+    color: white;
+    background-color: rgb(16, 72, 192);
+    cursor: pointer;
+}
+
+.table-borderless td,
+  .table-borderless th {
+      border: 0;
+  }

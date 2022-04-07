@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Dodavanje nove agencije u sistem:</h2> 
+            <form [formGroup]="agencyForm">
+                <table class="table">
+                    <tr>
+                        <td>Naziv:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="agency.name">
+                            <div *ngIf="(agencyForm.get('name').touched || nameError)"> 
+                                <small class="error" *ngIf="agencyForm.get('name').hasError('required')">
+                                    Naziv je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Adresa:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="address" name="address" [(ngModel)]="agency.address">
+                            <div *ngIf="(agencyForm.get('address').touched || addressError)"> 
+                                <small class="error" *ngIf="agencyForm.get('address').hasError('required')">
+                                    Adresa je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Grad:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="city" name="city" [(ngModel)]="agency.city">
+                            <div *ngIf="(agencyForm.get('city').touched || cityError)">
+                                <small class="error" *ngIf="agencyForm.get('city').hasError('required')">
+                                    Grad je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kontakt telefon:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="contact" name="contact" [(ngModel)]="agency.phone">
+                            <div *ngIf="(agencyForm.get('contact').touched || contactError)">
+                                <small class="error" *ngIf="agencyForm.get('contact').hasError('required')">
+                                    Kontakt telefon je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="agencyForm.get('contact').hasError('pattern')">
+                                    Kontakt telefon mora sadrzati samo cifre
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PIB:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="pib" name="pib" [(ngModel)]="agency.pib">
+                            <div *ngIf="(agencyForm.get('pib').touched || pibError)">
+                                <small class="error" *ngIf="agencyForm.get('pib').hasError('required')">
+                                    Broj licence je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="center">
+                            <button class="btn btn-primary" (click)="registerAgency()">Dodaj agenciju</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

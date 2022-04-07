@@ -1,0 +1,31 @@
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.error {
+    color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+    border:2px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+    border:2px solid green;
+}
+
+.file-input {
+    display: none;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}

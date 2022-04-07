@@ -1,0 +1,28 @@
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    color: red;
+}
+
+.form-control.ng-touched.ng-invalid {
+    border:2px solid red;
+}
+
+.form-control.ng-touched.ng-valid {
+    border:2px solid green;
+}
+
+.mat-row:hover {
+    background-color: #E8EAF6;
+    cursor: pointer;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}

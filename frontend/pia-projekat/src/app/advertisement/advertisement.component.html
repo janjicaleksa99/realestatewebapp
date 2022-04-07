@@ -1,0 +1,214 @@
+<div class="container-fluid">
+    <!--<div class="row flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-12">
+            <div class="flex-center">
+                <h2>Pretraga oglasa:</h2>
+            </div>
+        </div>
+    </div>-->
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-6 title">
+            <h3>{{advertisement.Realestate.Microlocation}} - {{advertisement.Realestate.Name}}</h3>
+            <img *ngIf="favorite()" style="margin-left: 10px;" src="../../assets/download.png" width="20" height="20">
+        </div>
+        <div class="col-sm-6 flex-bottom">
+            <h6>{{advertisement.Realestate.City}} - {{advertisement.Realestate.Municipality}} - {{advertisement.Realestate.Microlocation}} - {{advertisement.Realestate.Street}}</h6>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-6 flex-center">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block d-100" width="500" height="300" [src]="advertisement.Realestate.Pictures[0]" alt="Second slide"> 
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block d-100" width="500" height="300" [src]="advertisement.Realestate.Pictures[1]" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="btn btn-info">
+                Tip : {{advertisement.Realestate.Type}}
+            </div>
+            <br/>
+            <table class="table table-borderless">
+                <tr>
+                    <td>Oglašivač: </td>
+                    <td>{{advertisement.Advertiser[0].Type}}</td>
+                </tr>
+                <tr>
+                    <td>Godina izgradnje: </td>
+                    <td>{{advertisement.Realestate.ConstructionYear}}</td>
+                </tr>
+                <tr>
+                    <td>Stanje nekretnine: </td>
+                    <td>{{advertisement.Realestate.State}}</td>
+                </tr>
+                <tr>
+                    <td>Tip grejanja: </td>
+                    <td>{{advertisement.Realestate.Heating}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-2">
+            <div class="btn btn-info">
+                Kvadratura : {{advertisement.Realestate.Area}} m2
+            </div>
+            <br/>
+            <table class="table table-borderless">
+                <tr>
+                    <td>Sprat: {{advertisement.Advertiser[0].Type}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Ukupna spratnost: </td>
+                    <td>{{advertisement.Realestate.TotalFloors}}</td>
+                </tr>
+                <tr>
+                    <td>Parking: </td>
+                    <td>{{advertisement.Realestate.Parking}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-2">
+            <div class="btn btn-info">
+                Soba : {{advertisement.Realestate.Rooms}}
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-4 flex-center">
+            
+        </div>
+        <div class="col-sm-2 flex-center">
+            <span [class.red]="priceRed()" [class.green]="priceGreen()">{{advertisement.Realestate.Price}} €</span>
+        </div>
+        <div class="col-sm-4 flex-center">
+            
+        </div>
+        <div class="col-sm-2 flex-bottom">
+            <button class="btn btn-primary" (click)="addToFavorites()">Dodaj u omiljene</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-6">
+            Karakteristike:
+            <table class="table table-borderless">
+                <tr>
+                    <td><input type="checkbox" [checked]="checkFor('Terasa')" disabled name="" id=""> Terasa</td>
+                    <td><input type="checkbox" [checked]="checkFor('Podrum')" disabled name="" id=""> Podrum</td>
+                    <td><input type="checkbox" [checked]="checkFor('Internet')" disabled name="" id=""> Internet</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" [checked]="checkFor('Lođa')" disabled name="" id=""> Lođa</td>
+                    <td><input type="checkbox" [checked]="checkFor('Garaža')" disabled name="" id=""> Garaža</td>
+                    <td><input type="checkbox" [checked]="checkFor('Interfon')" disabled name="" id=""> Interfon</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" [checked]="checkFor('Francuski balkon')" disabled name="" id=""> Francuski balkon</td>
+                    <td><input type="checkbox" [checked]="checkFor('Sa baštom')" disabled name="" id=""> Sa baštom</td>
+                    <td><input type="checkbox" [checked]="checkFor('Telefon')" disabled name="" id=""> Telefon</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" [checked]="checkFor('Lift')" disabled name="" id=""> Lift</td>
+                    <td><input type="checkbox" [checked]="checkFor('Klima')" disabled name="" id=""> Klima</td>
+                    <td></td>
+                </tr>
+            </table>
+            <br>
+        </div>
+        <div class="col-sm-6">
+            Opis:
+            <br/>
+            <p>{{advertisement.Realestate.About}}</p>
+            <br/>
+            Prosečna cena na lokaciji: {{avgPrice()}} €/m2
+            <br/>
+            <button type="button" class="contact btn btn-secondary" data-toggle="modal" data-target="#exampleModal" (click)="showContact()">
+                Kontakt oglašivača
+            </button>
+              
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Kontakt oglašivača</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div *ngIf="advertiser == 'prodavac'">
+                        <h3>Samostalni prodavac</h3>
+                        <table class="table">
+                            <tr>
+                                <td>Ime:</td>
+                                <td>{{advertisement.Advertiser[0].FirstName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Prezime:</td>
+                                <td>{{advertisement.Advertiser[0].LastName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Broj telefona:</td>
+                                <td *ngIf="!contactRequest"><button (click)="showPhone()" class="btn btn-primary">+</button></td>
+                                <td *ngIf="contactRequest">{{advertisement.Advertiser[0].Phone}}</td>
+                            </tr>
+                        </table>
+                      </div>
+                      <div *ngIf="advertiser == 'agencija'">
+                        <h3 style="text-align: center;">Agencija</h3>
+                        <table class="table">
+                            <tr>
+                                <td>Naziv:</td>
+                                <td>{{advertisement.Advertiser[0].Name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Adresa:</td>
+                                <td>{{advertisement.Advertiser[0].Address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Grad:</td>
+                                <td>{{advertisement.Advertiser[0].City}}</td>
+                            </tr>
+                            <tr>
+                                <td>PIB:</td>
+                                <td>{{advertisement.Advertiser[0].PIB}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ime agenta:</td>
+                                <td>{{advertisement.Advertiser[1].FirstName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Prezime agenta:</td>
+                                <td>{{advertisement.Advertiser[1].LastName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Broj telefona agenta:</td>
+                                <td *ngIf="!contactRequest"><button (click)="showPhone()" class="btn btn-primary">+</button></td>
+                                <td *ngIf="contactRequest">{{advertisement.Advertiser[1].Phone}}</td>
+                            </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

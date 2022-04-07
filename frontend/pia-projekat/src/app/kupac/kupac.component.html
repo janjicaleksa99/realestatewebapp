@@ -1,0 +1,148 @@
+<div class="container-fluid">
+    <!--<div class="row flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-12">
+            <div class="flex-center">
+                <h2>Pretraga oglasa:</h2>
+            </div>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-sm-4 flex-center">
+            <div class="flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+                <h2>Pretraga oglasa:</h2>
+            </div>
+            <form  [formGroup]="searchForm">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Tip nekretnine:</td>
+                        <td>
+                            <select class="form-control" formControlName="type" name="type" [(ngModel)]="type">
+                                <option value="stan">Stan</option>
+                                <option value="kuća">Kuća</option>
+                                <option value="vikendica">Vikendica</option>
+                                <option value="lokal">Lokal</option>
+                                <option value="magacin">Magacin</option>
+                            </select>
+                            <div *ngIf="(searchForm.get('type').touched || typeError)"> 
+                                <small class="error" *ngIf="searchForm.get('type').hasError('required')">
+                                    Tip nekretnine je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2"><hr></td></tr>
+                    <tr>
+                        <td align="center" colspan="2">Lokacija:</td>
+                    </tr>
+                    <tr>
+                        <td>Grad:</td>
+                        <td>
+                            <input class="form-control" formControlName="city" type="text" name="city" [(ngModel)]="city">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Opština:</td>
+                        <td>
+                            <input class="form-control" formControlName="municipality" type="text" name="municipality" [(ngModel)]="municipality">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mikro lokacija:</td>
+                        <td>
+                            <input class="form-control" formControlName="microloc"  type="text" name="microloc" [(ngModel)]="microloc">
+                        </td>
+                    </tr>
+                    <tr><td colspan="2"><hr></td></tr>
+                    <tr>
+                        <td>Cena do:</td>
+                        <td>
+                            <input class="form-control" formControlName="price" type="text" name="price" [(ngModel)]="price">
+                            <div *ngIf="(searchForm.get('price').touched || priceError)"> 
+                                <small class="error" *ngIf="searchForm.get('price').hasError('pattern')">
+                                    Cena mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kvadratura od:</td>
+                        <td>
+                            <input class="form-control" formControlName="squareFoot" type="text" name="squareFoot" [(ngModel)]="squareFoot">
+                            <div *ngIf="(searchForm.get('squareFoot').touched || squareFootError)"> 
+                                <small class="error" *ngIf="searchForm.get('squareFoot').hasError('pattern')">
+                                    Kvadratura mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Minimalan broj soba</td>
+                        <td>
+                            <select formControlName="minNumOfRooms" [(ngModel)]="minNumOfRooms">
+                                <option value="1">1</option>
+                                <option value="1.5">1.5</option>
+                                <option value="2">2</option>
+                                <option value="2.5">2.5</option>
+                                <option value="3">3</option>
+                                <option value="3.5">3.5</option>
+                                <option value="4">4</option>
+                                <option value="4.5">4.5</option>
+                                <option value="5">5+</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="2" class="center">
+                            <button class="btn btn-primary" (click)="search()">Pretraga</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>            
+        </div>
+        <div class="col-sm-8">
+            <div class="container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Naziv</th>
+                      <th>Grad:</th>
+                      <th>Opština:</th>
+                      <th>Mikro lokacija:</th>
+                      <th>Kvadratura</th>
+                      <th>Broj soba:</th>
+                      <th>Spratnost:</th>
+                      <th>Kratak opis:</th>
+                      <th>Cena:</th>
+                      <th>Prosečna cena:</th>   <!-- Prosecna cena kvadrata svih nekretnina tog tipa na toj mikrolokaciji -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="mat-row" *ngFor="let ad of advertisements | paginate : {
+                              itemsPerPage: tableSize,
+                              currentPage: page,
+                              totalItems: count
+                            };" (click)="openAd(ad)">
+                      <td>{{ad.Realestate.Name}}</td>
+                      <td>{{ad.Realestate.City}}</td>
+                      <td>{{ad.Realestate.Municipality}}</td>
+                      <td>{{ad.Realestate.Microlocation}}</td>
+                      <td>{{ad.Realestate.Area}}</td>
+                      <td>{{ad.Realestate.Rooms}}</td>
+                      <td>{{ad.Realestate.Floor}}</td>
+                      <td>{{ad.Realestate.About}}</td>
+                      <td>{{ad.Realestate.Price}}</td>
+                      <td>{{averagePrice(ad.Realestate.Type, ad.Realestate.Microlocation)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                  <pagination-controls  
+                    previousLabel="Prev" 
+                    nextLabel="Next" 
+                    (pageChange)="onTableDataChange($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+        </div>
+    </div>    
+</div>

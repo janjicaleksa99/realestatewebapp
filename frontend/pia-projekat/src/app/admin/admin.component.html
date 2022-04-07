@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+                <h2>Lista novodobijenih zahteva za registraciju:</h2>       
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 flex-center">
+            <table class="table table-border">
+                <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Grad</th>
+                    <th>Datum rodjenja</th>
+                    <th>Kontakt</th>
+                    <th>Email adresa</th>
+                    <th>Tip</th>
+                    <th>Prihvati</th>
+                    <th>Odbij</th>
+                </tr>
+                <tr *ngIf="newUsers.length == 0">
+                    <td colspan="10" align="center">
+                        <h5>Nema novi zahteva za registraciju</h5>
+                    </td>
+                </tr>
+                <tr *ngFor="let user of newUsers">
+                    <td>{{user.name}}</td>
+                    <td>{{user.surname}}</td>
+                    <td>{{user.city}}</td>
+                    <td>{{getDate(user.birthDate)}}</td>
+                    <td>{{user.contact}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.type}}</td>
+                    <td><button (click)="acceptUser(user)" class="btn btn-success">✓</button></td>
+                    <td><button (click)="rejectUser(user)" class="btn btn-danger">X</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>       
+</div>

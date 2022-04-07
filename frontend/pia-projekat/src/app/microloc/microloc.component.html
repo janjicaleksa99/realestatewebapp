@@ -1,0 +1,92 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Dodavanje mikrolokacije i ulice:</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 flex-center">
+            <form>
+            <table class="table">
+                <tr>
+                    <td>Izaberite grad:</td>
+                    <td>
+                        <select class="form-control" name="city" (change)="enableMunicipality()" [(ngModel)]="selectedCity">
+                            <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Izaberite opštinu:</td>
+                    <td>
+                        <select [disabled]="!municipalityEn" class="form-control" name="municipality" (change)="enableLocAndStr()" [(ngModel)]="selectedMunicipality">
+                            <ng-container *ngFor="let mun of municipalities">
+                                <option *ngIf="mun.city == selectedCity" value="{{mun.name}}">{{mun.name}}</option>
+                            </ng-container>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Unesite novu mikrolokaciju:</td>
+                    <td>
+                        <input [disabled]="!locAndStrEn" class="form-control" type="text" name="microloc" [(ngModel)]="microLocation">
+                        <br>
+                        <table>
+                            <tr *ngIf="munEn">
+                                <td>Unesite broj novih ulica:</td>
+                                <td>
+                                    <select [disabled]="!locAndStrEn" class="form-control" name="streetnum" [(ngModel)]="streetNum" (change)="makeNumbers2()">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr *ngFor='let i of numbers2'>
+                                <td>Unesite novu ulicu:</td>
+                                <td>
+                                    <input [disabled]="!locAndStrEn" id="{{'street' + i}}" class="form-control" type="text" name="{{'street' + i}}" >
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center">
+                        <button class="btn btn-primary" (click)="addLocation()">Dodaj mikrolokaciju</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 flex-center">
+            <h2>Ukloni mikrolokaciju:</h2>
+            <table class="table">
+                <tr>
+                    <th>Naziv:</th>
+                    <th>Ukloni:</th>
+                </tr>
+                <tr *ngFor="let microloc of allMicroLoc">
+                    <ng-container *ngIf="deleteEn(microloc)">
+                        <td>
+                            {{microloc.name}}
+                        </td>
+                        <td>
+                            <button (click)="deleteMicroLoc(microloc)" class="btn btn-danger">X</button>
+                        </td>
+                    </ng-container>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

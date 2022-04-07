@@ -1,0 +1,200 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Dodavanje novog korisnika u sistem:</h2> 
+            <form [formGroup]="registerForm">
+                <table class="table">
+                    <tr>
+                        <td>Ime:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="name" name="name" [(ngModel)]="newUser.name">
+                            <div *ngIf="(registerForm.get('name').touched || nameError)"> 
+                                <small class="error" *ngIf="registerForm.get('name').hasError('required')">
+                                    Ime je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prezime:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="surname" name="surname" [(ngModel)]="newUser.surname">
+                            <div *ngIf="(registerForm.get('surname').touched || surnameError)">
+                                <small class="error" *ngIf="registerForm.get('surname').hasError('required')">
+                                    Prezime je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Korisnicko ime:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="username" name="username" [(ngModel)]="newUser.username">
+                            <div *ngIf="(registerForm.get('username').touched || usernameError)">
+                                <small class="error" *ngIf="registerForm.get('username').hasError('required')">
+                                    Korisnicko ime je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="userAlreadyExists">
+                                    Korisnicko ime već postoji u sistemu
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lozinka:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="password" name="password" [(ngModel)]="newUser.password">
+                            <div *ngIf="(registerForm.get('password').touched || passwordError)">
+                                <small class="error" *ngIf="registerForm.get('password').hasError('required')">
+                                    Lozinka je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('password').hasError('pattern')">
+                                    Lozinka mora imati bar 8 karaktera, bar jedno veliko slovo, <br> bar jedan broj i jedan specijalni karakter i mora poceti slovom.
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Potvrda lozinke:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="passwordConfirm" name="passwordConfirm">
+                            <div *ngIf="(registerForm.get('passwordConfirm').touched || passwordConfirmError)">
+                                <small class="error" *ngIf="registerForm.get('passwordConfirm').hasError('required')">
+                                    Potvrda lozinke je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('passwordConfirm').hasError('matching')
+                                && !registerForm.get('passwordConfirm').hasError('required')">
+                                    Potvrda lozinke se ne slaze sa lozinkom
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Grad:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="city" name="city" [(ngModel)]="newUser.city">
+                            <div *ngIf="(registerForm.get('city').touched || cityError)">
+                                <small class="error" *ngIf="registerForm.get('city').hasError('required')">
+                                    Grad je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Datum rodjenja:</td>
+                        <td>
+                            <input type="date" class="form-control" formControlName="date" name="date" [(ngModel)]="newUser.birthDate">
+                            <div *ngIf="(registerForm.get('date').touched || dateError)">
+                                <small class="error" *ngIf="registerForm.get('date').hasError('required')">
+                                    Datum je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kontakt telefon:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="contact" name="contact" [(ngModel)]="newUser.contact">
+                            <div *ngIf="(registerForm.get('contact').touched || contactError)">
+                                <small class="error" *ngIf="registerForm.get('contact').hasError('required')">
+                                    Kontakt telefon je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('contact').hasError('pattern')">
+                                    Kontakt telefon mora sadrzati samo cifre
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email adresa:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="newUser.email">
+                            <div *ngIf="(registerForm.get('email').touched || emailError)">
+                                <small class="error" *ngIf="registerForm.get('email').hasError('required')">
+                                    Email adresa je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('email').hasError('email')">
+                                    Email adresa nije uneta u ispravnom <br> formatu
+                                </small>
+                                <small class="error" *ngIf="emailAlreadyExists">
+                                    Email adresa već postoji u sistemu
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tip korisnika:</td>
+                        <td>
+                            <select class="form-control" formControlName="type" name="type" [(ngModel)]="newUser.type">
+                                <option value="kupac">Kupac</option>
+                                <option value="prodavac">Samostalni prodavac</option>
+                                <option value="agent">Agent agencije</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                            <div *ngIf="(registerForm.get('type').touched || typeError)">
+                                <small class="error" *ngIf="registerForm.get('type').hasError('required')">
+                                    Tip korisnika je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="newUser.type == 'agent'">
+                        <td>Agencija agenta:</td>
+                        <td>
+                            <select class="form-control" formControlName="agency" name="agency" [(ngModel)]="newUser.agency">
+                                <option value=""></option>
+                                <option *ngFor="let a of agencies" value="{{a.name}}">{{a.name}}</option>
+                            </select>
+                            <div *ngIf="(registerForm.get('agency').touched || agencyError)">
+                                <small class="error" *ngIf="registerForm.get('agency').hasError('required')">
+                                    Morate izabrati agenciju za agenta
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="newUser.type == 'agent'">
+                        <td>Broj licence agenta:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="license" name="license" [(ngModel)]="newUser.licenseNum">
+                            <div *ngIf="(registerForm.get('license').touched || licenseError)">
+                                <small class="error" *ngIf="registerForm.get('license').hasError('required')">
+                                    Broj licence je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izaberite profilnu sliku:</td>
+                        <td>
+                            <input type="file" class="file-input form-control" formControlName="picture" name="picture"
+                                (change)="onFileSelected($event)" #fileUpload>
+        
+                            <div class="file-upload">
+                                <button class="btn btn-primary" (click)="fileUpload.click()">
+                                    Izaberite fajl
+                                </button>
+                                {{fileName || "Slika nije učitana"}} 
+                            </div>
+                            <div *ngIf="(registerForm.get('picture').touched || pictureError)">
+                                <small class="error" *ngIf="registerForm.get('picture').hasError('required')">
+                                    Profilna slika mora da se izabere
+                                </small>
+                            </div>
+                            <small class="error" *ngIf="!pictureFormatOk">
+                                Profilna slika mora biti u png ili jpeg formatu
+                            </small>
+                            <small class="error" *ngIf="!pictureSizeOk">
+                                Minimalne dimenzije slike su 100x100, a maksimalne dimenzije su 300x300
+                            </small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="center">
+                            <button class="btn btn-primary" (click)="register()">Dodaj korisnika</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

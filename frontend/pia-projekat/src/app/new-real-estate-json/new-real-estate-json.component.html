@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-12 flex-center">
+            <div class="flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+                <h2>Unesite nekretninu kroz učitavanje JSON fajla:</h2>
+
+            <table style="margin-top: 100px;" class="table">
+                <tr *ngIf="step1Elem">
+                    <td>Izaberite json fajl <br> u kome se nalaze podaci <br> o nekretnini:</td>
+                    <td colspan="2">
+                        <input type="file" class="file-input" name="file"
+                            (change)="onFileSelected($event)" #fileUpload>
+    
+                        <div class="file-upload">
+                            <button class="btn btn-primary" (click)="fileUpload.click()">
+                                Izaberite fajl
+                            </button>
+                            {{fileName || "Nekretnina nije učitana"}} 
+                        </div>
+                        <small class="error" *ngIf="!fileFormatOk">
+                            Nekretnina mora biti json fajl
+                        </small>
+                    </td>
+                </tr>
+                <tr *ngIf="step2Elem">
+                    <td colspan="3">
+                        <button (click)="checkFormat()" class="btn btn-primary">Provera formata JSON fajla</button>
+                    </td>
+                    <small class="error" *ngIf="fieldsError">
+                        JSON fajl ne sadrzi sva potrebna polja
+                    </small>
+                </tr>
+                <tr *ngIf="step3Elem">
+                    <td>Izaberite slike nekretnine:</td>
+                    <td colspan="2">
+                        <form  [formGroup]="realEstateForm">
+                        <input type="file" class="file-input form-control" formControlName="picture" name="picture"
+                            (change)="onPictureSelected($event)" multiple #fileUpload>
+    
+                        <div class="file-upload">
+                            <button class="btn btn-primary" (click)="fileUpload.click()">
+                                Izaberite fajl
+                            </button>
+                        </div>
+                        <div *ngIf="(realEstateForm.get('picture').touched || pictureError)">
+                            <small class="error" *ngIf="realEstateForm.get('picture').hasError('required')">
+                                Slike moraju da se izaberu
+                            </small>
+                        </div>
+                        <small class="error" *ngIf="fileNumberError">
+                            Moraju da se izaberu najmanje 3, a najviše 6 slika
+                        </small>
+                        </form>
+                    </td>
+                </tr>
+                <tr *ngIf="step3Elem">
+                    <td colspan="3">
+                        <button (click)="addAd()" class="btn btn-primary">Unesi nekretninu</button>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <table class="table table-borderless">
+                    <tr>
+                        <td>
+                            <button (click)="step1()" type="button" class="btn btn-success btn-circle btn-md"><h4>1</h4></button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button (click)="step2()" type="button" [class.btn-success]="step2En" [class.btn-secondary]="!step2En" class="btn btn-circle btn-md"><h4>2</h4></button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button (click)="step3()" type="button" [class.btn-success]="step3En" [class.btn-secondary]="!step3En" class="btn btn-circle btn-md"><h4>3</h4></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>  
+</div>

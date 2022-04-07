@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Lista svih korisnika u sistemu:</h2>
+            <table class="table">
+                <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Grad</th>
+                    <th>Datum rodjenja</th>
+                    <th>Kontakt</th>
+                    <th>Email adresa</th>
+                    <th>Tip</th>
+                    <th>Status</th>
+                    <th>Izmeni</th>
+                    <th>Izbriši</th>
+                </tr>
+                <tr *ngIf="users.length == 0">
+                    <td colspan="10" align="center">
+                        <h5>Nema korisnika u sistemu</h5>
+                    </td>
+                </tr>
+                <tr *ngFor="let user of users">
+                    <td>{{user.name}}</td>
+                    <td>{{user.surname}}</td>
+                    <td>{{user.city}}</td>
+                    <td>{{getDate(user.birthDate)}}</td>
+                    <td>{{user.contact}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.type}}</td>
+                    <td>{{user.status}}</td>
+                    <td>
+                        <button (click)="edit(user)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Izmeni
+                        </button>
+                    </td>
+                    <td><button (click)="deleteUser(user)" class="btn btn-danger">X</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ažurirajte korisnika</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="editForm">
+                            <table class="table">
+                                <tr>
+                                    <td>Grad:</td>
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="city" name="city" [(ngModel)]="city">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kontakt:</td>
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="contact" name="contact" [(ngModel)]="contact">
+                                        <div *ngIf="(editForm.get('contact').touched || contactError)">
+                                            <small class="error" *ngIf="editForm.get('contact').hasError('pattern')">
+                                                Kontakt telefon mora sadrzati samo cifre
+                                            </small>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Email adresa</td>
+                                    <td>
+                                        <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="email">
+                                        <div *ngIf="(editForm.get('email').touched || emailError)">
+                                            <small class="error" *ngIf="editForm.get('email').hasError('email')">
+                                                Email adresa nije uneta u ispravnom formatu
+                                            </small>
+                                            <small class="error" *ngIf="emailAlreadyExists">
+                                                Email adresa već postoji u sistemu
+                                            </small>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveChanges()">Sačuvaj izmene</button>
+                    </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>

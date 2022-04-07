@@ -1,0 +1,318 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="col-sm-12 flex-center">
+            <div class="flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+                <h2>Unesi novu nekretninu:</h2>
+            </div>
+            <form  [formGroup]="realEstateForm">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Naziv:</td>
+                        <td>
+                            <input class="form-control" formControlName="name" name="name" [(ngModel)]="ad.Realestate.Name">
+                            <div *ngIf="(realEstateForm.get('name').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('name').hasError('required')">
+                                    Tip nekretnine je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tip nekretnine:</td>
+                        <td>
+                            <select class="form-control" formControlName="type" name="type" [(ngModel)]="ad.Realestate.Type">
+                                <option value="stan">Stan</option>
+                                <option value="kuća">Kuća</option>
+                                <option value="vikendica">Vikendica</option>
+                                <option value="lokal">Lokal</option>
+                                <option value="magacin">Magacin</option>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('type').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('type').hasError('required')">
+                                    Tip nekretnine je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2"><hr></td></tr>
+                    <tr>
+                        <td align="center" colspan="2">Lokacija:</td>
+                    </tr>
+                    <tr>
+                        <td>Grad:</td>
+                        <td>
+                            <select class="form-control" formControlName="city" name="city" [(ngModel)]="ad.Realestate.City">
+                                <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('city').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('city').hasError('required')">
+                                    Grad je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Opština:</td>
+                        <td>
+                            <select class="form-control" formControlName="municipality" name="municipality" [(ngModel)]="ad.Realestate.Municipality">
+                                <ng-container *ngFor="let mun of municipalities">
+                                    <option *ngIf="mun.city == ad.Realestate.City" value="{{mun.name}}">{{mun.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('municipality').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('municipality').hasError('required')">
+                                    Opština je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mikrolokacija:</td>
+                        <td>
+                            <select class="form-control" formControlName="microloc" (change)="getLines()" name="microloc" [(ngModel)]="ad.Realestate.Microlocation">
+                                <ng-container *ngFor="let microloc of microlocs">
+                                    <option *ngIf="microloc.municipality == ad.Realestate.Municipality" value="{{microloc.name}}">{{microloc.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('microloc').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('microloc').hasError('required')">
+                                    Mikrolokacija je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ulica:</td>
+                        <td>
+                            <select class="form-control" formControlName="street" name="street" [(ngModel)]="ad.Realestate.Street">
+                                <ng-container *ngFor="let street of streets">
+                                    <option *ngIf="street.microlocation == ad.Realestate.Microlocation" value="{{street.name}}">{{street.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('street').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('street').hasError('required')">
+                                    Ulica je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Linije:</td>
+                        <td>
+                            <select multiple class="form-control" formControlName="lines" name="lines" [(ngModel)]="ad.Realestate.Lines">
+                                <ng-container *ngFor="let line of lines">
+                                    <option value="{{line}}">{{line}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('lines').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('lines').hasError('required')">
+                                    Linije su obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2"><hr></td></tr>
+                    <tr>
+                        <td>Kvadratura:</td>
+                        <td>
+                            <input class="form-control" formControlName="area" name="area" [(ngModel)]="ad.Realestate.Area">
+                            <div *ngIf="(realEstateForm.get('area').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('area').hasError('required')">
+                                    Površina je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('area').hasError('pattern')">
+                                    Površina mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Broj soba:</td>
+                        <td>
+                            <input class="form-control" formControlName="rooms" name="rooms" [(ngModel)]="ad.Realestate.Rooms">
+                            <div *ngIf="(realEstateForm.get('rooms').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('rooms').hasError('required')">
+                                    Broj soba je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('rooms').hasError('pattern')">
+                                    Broj soba mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Godina konstrukcije:</td>
+                        <td>
+                            <input class="form-control" formControlName="constructionYear" name="constructionYear" [(ngModel)]="ad.Realestate.ConstructionYear">
+                            <div *ngIf="(realEstateForm.get('constructionYear').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('constructionYear').hasError('required')">
+                                    Godina konstrukcije je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('constructionYear').hasError('pattern')">
+                                    Godina konstrukcije mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Stanje:</td>
+                        <td>
+                            <input class="form-control" formControlName="state" name="state" [(ngModel)]="ad.Realestate.State">
+                            <div *ngIf="(realEstateForm.get('state').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('state').hasError('required')">
+                                    Izvorno stanje je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Grejanje:</td>
+                        <td>
+                            <input class="form-control" formControlName="heating" name="heating" [(ngModel)]="ad.Realestate.Heating">
+                            <div *ngIf="(realEstateForm.get('heating').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('heating').hasError('required')">
+                                    Grejanje je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sprat:</td>
+                        <td>
+                            <input class="form-control" formControlName="floor" name="floor" [(ngModel)]="ad.Realestate.Floor">
+                            <div *ngIf="(realEstateForm.get('floor').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('floor').hasError('required')">
+                                    Sprat je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('floor').hasError('pattern')">
+                                    Sprat mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ukupan broj spratova:</td>
+                        <td>
+                            <input class="form-control" formControlName="totalFloors" name="totalFloors" [(ngModel)]="ad.Realestate.TotalFloors">
+                            <div *ngIf="(realEstateForm.get('totalFloors').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('totalFloors').hasError('required')">
+                                    Ukupan broj spratova je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('totalFloors').hasError('pattern')">
+                                    Ukupan broj spratova mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Parking:</td>
+                        <td>
+                            <select class="form-control" formControlName="parking" name="parking" [(ngModel)]="ad.Realestate.Parking">
+                                <option value="DA">DA</option>
+                                <option value="NE">NE</option>
+                            </select>
+                            <div *ngIf="(realEstateForm.get('parking').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('parking').hasError('required')">
+                                    Parking je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mesečne režije:</td>
+                        <td>
+                            <input class="form-control" formControlName="monthlyUtilities" name="monthlyUtilities" [(ngModel)]="ad.Realestate.MonthlyUtilities">
+                            <div *ngIf="(realEstateForm.get('monthlyUtilities').touched || typeError)"> 
+                                <small class="error" *ngIf="realEstateForm.get('monthlyUtilities').hasError('required')">
+                                    Mesečne režije je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="realEstateForm.get('monthlyUtilities').hasError('pattern')">
+                                    Mesečne režije mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cena:</td>
+                        <td>
+                            <input class="form-control" formControlName="price" type="text" name="price" [(ngModel)]="ad.Realestate.Price">
+                            <div *ngIf="(realEstateForm.get('price').touched || typeError)">
+                                <small class="error" *ngIf="realEstateForm.get('price').hasError('required')">
+                                    Cena je obavezno polje
+                                </small> 
+                                <small class="error" *ngIf="realEstateForm.get('price').hasError('pattern')">
+                                    Cena mora biti broj
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Opis:</td>
+                        <td>
+                            <textarea class="form-control" formControlName="about" name="about" [(ngModel)]="ad.Realestate.About" cols="30" rows="10"></textarea>
+                            <div *ngIf="(realEstateForm.get('about').touched || typeError)">
+                                <small class="error" *ngIf="realEstateForm.get('about').hasError('required')">
+                                    Opis je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Karakteristike:
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><input type="checkbox" (change)="addCharac('Terasa', 0)"> Terasa</td>
+                                    <td><input type="checkbox" (change)="addCharac('Podrum', 1)"> Podrum</td>
+                                    <td><input type="checkbox" (change)="addCharac('Internet', 2)"> Internet</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" (change)="addCharac('Lođa', 3)"> Lođa</td>
+                                    <td><input type="checkbox" (change)="addCharac('Garaža', 4)"> Garaža</td>
+                                    <td><input type="checkbox" (change)="addCharac('Interfon', 5)"> Interfon</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" (change)="addCharac('Francuski balkon', 6)"> Francuski balkon</td>
+                                    <td><input type="checkbox" (change)="addCharac('Sa baštom', 7)"> Sa baštom</td>
+                                    <td><input type="checkbox" (change)="addCharac('Telefon', 8)"> Telefon</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" (change)="addCharac('Lift', 9)"> Lift</td>
+                                    <td><input type="checkbox" (change)="addCharac('Klima', 10)"> Klima</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Izaberite slike nekretnine:</td>
+                        <td>
+                            <input type="file" class="file-input form-control" formControlName="picture" name="picture"
+                                (change)="onFileSelected($event)" multiple #fileUpload>
+        
+                            <div class="file-upload">
+                                <button class="btn btn-primary" (click)="fileUpload.click()">
+                                    Izaberite fajl
+                                </button>
+                                {{fileName || "Slika nije učitana"}} 
+                            </div>
+                            <div *ngIf="(realEstateForm.get('picture').touched || pictureError)">
+                                <small class="error" *ngIf="realEstateForm.get('picture').hasError('required')">
+                                    Slike moraju da se izaberu
+                                </small>
+                            </div>
+                            <small class="error" *ngIf="fileNumberError">
+                                Moraju da se izaberu najmanje 3, a najviše 6 slika
+                            </small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="2" class="center">
+                            <button class="btn btn-primary" (click)="addAd()">Unesi nekretninu</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>            
+        </div>
+    </div>    
+</div>

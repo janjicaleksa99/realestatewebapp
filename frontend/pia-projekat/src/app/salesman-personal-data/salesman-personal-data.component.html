@@ -1,0 +1,127 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Podaci o oglašivaču:</h2> 
+            <form [formGroup]="registerForm">
+                <table class="table">
+                    <tr>
+                        <td>Kontakt telefon:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="contact" name="contact" [(ngModel)]="salesman.contact">
+                            <div *ngIf="(registerForm.get('contact').touched || contactError)">
+                                <small class="error" *ngIf="registerForm.get('contact').hasError('required')">
+                                    Kontakt telefon je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('contact').hasError('pattern')">
+                                    Kontakt telefon mora sadrzati samo cifre
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email adresa:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="email" name="email" [(ngModel)]="salesman.email">
+                            <div *ngIf="(registerForm.get('email').touched || emailError)">
+                                <small class="error" *ngIf="registerForm.get('email').hasError('required')">
+                                    Email adresa je obavezno polje
+                                </small>
+                                <small class="error" *ngIf="registerForm.get('email').hasError('email')">
+                                    Email adresa nije uneta u ispravnom <br> formatu
+                                </small>
+                                <small class="error" *ngIf="emailAlreadyExists">
+                                    Email adresa već postoji u sistemu
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="salesman.type == 'prodavac'">
+                        <td>
+                            Zaposlio se:
+                        </td>
+                        <td>
+                            <input type="checkbox" formControlName="employed" name="employed" [(ngModel)]="employed">
+                        </td>
+                    </tr>
+                    <tr *ngIf="salesman.type == 'agent' || employed">
+                        <td>Agencija agenta:</td>
+                        <td>
+                            <select class="form-control" formControlName="agency" name="agency" [(ngModel)]="salesman.agency">
+                                <option value=""></option>
+                                <option *ngFor="let a of agencies" value="{{a.name}}">{{a.name}}</option>
+                            </select>
+                            <div *ngIf="(registerForm.get('agency').touched || agencyError)">
+                                <small class="error" *ngIf="registerForm.get('agency').hasError('required')">
+                                    Morate izabrati agenciju za agenta
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="salesman.type == 'agent' || employed">
+                        <td>Broj licence agenta:</td>
+                        <td>
+                            <input type="text" class="form-control" formControlName="license" name="license" [(ngModel)]="salesman.licenseNum">
+                            <div *ngIf="(registerForm.get('license').touched || licenseError)">
+                                <small class="error" *ngIf="registerForm.get('license').hasError('required')">
+                                    Broj licence je obavezno polje
+                                </small>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="center">
+                            <button class="btn btn-primary" (click)="edit()">Izmeni</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 flex-center" style="margin-top: 20px; margin-bottom: 10px;">
+            <h2>Statistika prodaje nekretnina:</h2>
+            <form>
+                <table class="table">
+                    <tr>
+                        <td>Grad:</td>
+                        <td>
+                            <select class="form-control" name="city" [(ngModel)]="ad.Realestate.City">
+                                <option *ngFor="let city of cities" value="{{city.name}}">{{city.name}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Opština:</td>
+                        <td>
+                            <select class="form-control" name="municipality" [(ngModel)]="ad.Realestate.Municipality">
+                                <ng-container *ngFor="let mun of municipalities">
+                                    <option *ngIf="mun.city == ad.Realestate.City" value="{{mun.name}}">{{mun.name}}</option>
+                                </ng-container>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mikrolokacija:</td>
+                        <td>
+                            <select class="form-control" (change)="showGraph()" name="microloc" [(ngModel)]="ad.Realestate.Microlocation">
+                                <ng-container *ngFor="let microloc of microlocs">
+                                    <option *ngIf="microloc.municipality == ad.Realestate.Municipality" value="{{microloc.name}}">{{microloc.name}}</option>
+                                </ng-container>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div *ngIf="ad.Realestate.Microlocation != null" class="chart-wrapper" style="width: 500px; height: 200px; margin-bottom: 10px;">
+                <canvas baseChart 
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+              </canvas>
+            </div>
+        </div>
+    </div>
+</div>
